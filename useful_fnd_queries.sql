@@ -19,23 +19,24 @@ SELECT fu.user_name
    AND furg.responsibility_id = fr.responsibility_id
    AND SYSDATE BETWEEN NVL(furg.start_date, SYSDATE - 1)
                    AND NVL(furg.end_date, SYSDATE + 1)
- ORDER BY fu.user_name, furg.creation_date DESC;
+ ORDER BY fu.user_name
+        , furg.creation_date DESC;
 
 -- Request Group Assignment
 SELECT fr.responsibility_name
-      ,frg.request_group_name
-      ,fap.application_name
-      ,frgu.request_unit_type
-      ,frgu.request_unit_id
-      ,fcpt.user_concurrent_program_name
+     , frg.request_group_name
+     , fap.application_name
+     , frgu.request_unit_type
+     , frgu.request_unit_id
+     , fcpt.user_concurrent_program_name
   FROM fnd_responsibility_vl fr
-      ,fnd_application_vl fap
-      ,fnd_request_groups frg
-      ,fnd_request_group_units frgu
-      ,fnd_concurrent_programs_vl fcpt
+     , fnd_application_vl fap
+     , fnd_request_groups frg
+     , fnd_request_group_units frgu
+     , fnd_concurrent_programs_vl fcpt
  WHERE frg.request_group_id = fr.request_group_id
    AND frg.application_id = fap.application_id
    AND frgu.request_group_id = frg.request_group_id
    AND fcpt.concurrent_program_id = frgu.request_unit_id
    AND fcpt.user_concurrent_program_name = 'GL SubLedger Period Status Report'
-ORDER BY 1,2,3,4;
+ORDER BY 1, 2, 3, 4;
